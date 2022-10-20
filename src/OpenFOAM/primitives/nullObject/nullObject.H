@@ -68,13 +68,17 @@ public:
 extern const NullObject* nullObjectPtr;
 
 
-//- Return reference to the nullObject of type T
+//- Return const reference to the nullObject of type T
 template<class T>
 inline const T& NullObjectRef();
 
+//- Return const pointer to the nullObject of type T
+template<class T>
+inline const T* NullObjectConstPtr();
+ 
 //- Return pointer to the nullObject of type T
 template<class T>
-inline const T* NullObjectPtr();
+inline T* NullObjectPtr();
 
 //- Return reference to the nullObject of type T
 template<class T>
@@ -99,6 +103,15 @@ template<class T>
 inline bool notNull(const T* t);
 
 
+ //- Return true if t is a pointer to the nullObject of type T
+template<class T>
+inline bool isNull(T* t);
+
+//- Return true if t is not a pointer to the nullObject of type T
+template<class T>
+inline bool notNull(T* t); 
+  
+  
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 } // End namespace Foam
