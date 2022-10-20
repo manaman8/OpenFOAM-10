@@ -36,11 +36,16 @@ inline T&& Foam::NullObjectMove()
 }
 
 template<class T>
-inline const T* Foam::NullObjectPtr()
+inline const T* Foam::NullObjectConstPtr()
 {
     return reinterpret_cast<const T*>(nullObjectPtr);
 }
 
+template<class T>
+inline T* Foam::NullObjectPtr()
+{
+    return const_cast<T*>(reinterpret_cast<const T*>(nullObjectPtr));
+}
 
 template<class T>
 inline bool Foam::isNull(const T& t)
@@ -63,6 +68,20 @@ inline bool Foam::isNull(const T* t)
 
 template<class T>
 inline bool Foam::notNull(const T* t)
+{
+    return t != NullObjectPtr<T>();
+}
+
+
+
+template<class T>
+inline bool Foam::isNull(T* t)
+{
+    return t == NullObjectPtr<T>();
+}
+
+template<class T>
+inline bool Foam::notNull(T* t)
 {
     return t != NullObjectPtr<T>();
 }
