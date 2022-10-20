@@ -270,30 +270,6 @@ void Foam::fvMeshAdder::MapVolFields
         ()
     );
 
-    // It is necessary to enforce that all old-time fields are stored
-    // before the mapping is performed.  Otherwise, if the
-    // old-time-level field is mapped before the field itself, sizes
-    // will not match.
-
-    for
-    (
-        typename HashTable<const GeometricField<Type, fvPatchField, volMesh>*>::
-            iterator fieldIter = fields.begin();
-        fieldIter != fields.end();
-        ++fieldIter
-    )
-    {
-        if (debug)
-        {
-            Pout<< "MapVolFields : Storing old time for " << fieldIter()->name()
-                << endl;
-        }
-
-        const_cast<GeometricField<Type, fvPatchField, volMesh>*>(fieldIter())
-            ->storeOldTimes();
-    }
-
-
     for
     (
         typename HashTable<const GeometricField<Type, fvPatchField, volMesh>*>::
@@ -588,29 +564,6 @@ void Foam::fvMeshAdder::MapSurfaceFields
     (
         meshToAdd.objectRegistry::lookupClass<fldType>()
     );
-
-    // It is necessary to enforce that all old-time fields are stored
-    // before the mapping is performed.  Otherwise, if the
-    // old-time-level field is mapped before the field itself, sizes
-    // will not match.
-
-    for
-    (
-        typename HashTable<const fldType*>::
-            iterator fieldIter = fields.begin();
-        fieldIter != fields.end();
-        ++fieldIter
-    )
-    {
-        if (debug)
-        {
-            Pout<< "MapSurfaceFields : Storing old time for "
-                << fieldIter()->name() << endl;
-        }
-
-        const_cast<fldType*>(fieldIter())->storeOldTimes();
-    }
-
 
     for
     (
@@ -907,29 +860,6 @@ void Foam::fvMeshAdder::MapPointFields
 
     HashTable<const fldType*> fields(mesh.thisDb().lookupClass<fldType>());
     HashTable<const fldType*> fieldsToAdd(meshToAdd.lookupClass<fldType>());
-
-    // It is necessary to enforce that all old-time fields are stored
-    // before the mapping is performed.  Otherwise, if the
-    // old-time-level field is mapped before the field itself, sizes
-    // will not match.
-
-    for
-    (
-        typename HashTable<const fldType*>::
-            iterator fieldIter = fields.begin();
-        fieldIter != fields.end();
-        ++fieldIter
-    )
-    {
-        if (debug)
-        {
-            Pout<< "MapPointFields : Storing old time for "
-                << fieldIter()->name() << endl;
-        }
-
-        const_cast<fldType*>(fieldIter())->storeOldTimes();
-    }
-
 
     for
     (
