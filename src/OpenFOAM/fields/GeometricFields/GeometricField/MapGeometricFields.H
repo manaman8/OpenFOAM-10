@@ -78,32 +78,7 @@ void MapGeometricFields
             lookupClass<GeometricField<Type, PatchField, GeoMesh>>()
     );
 
-    // It is necessary to enforce that all old-time fields are stored
-    // before the mapping is performed.  Otherwise, if the
-    // old-time-level field is mapped before the field itself, sizes
-    // will not match.
-
-    for
-    (
-        typename HashTable<const GeometricField<Type, PatchField, GeoMesh>*>::
-            iterator fieldIter = fields.begin();
-        fieldIter != fields.end();
-        ++fieldIter
-    )
-    {
-        GeometricField<Type, PatchField, GeoMesh>& field =
-            const_cast<GeometricField<Type, PatchField, GeoMesh>&>
-            (*fieldIter());
-
-        // Note: check can be removed once pointFields are actually stored on
-        //      the pointMesh instead of now on the polyMesh!
-        if (&field.mesh() == &mapper.mesh())
-        {
-            field.storeOldTimes();
-        }
-    }
-
-    for
+        for
     (
         typename HashTable<const GeometricField<Type, PatchField, GeoMesh>*>::
             iterator fieldIter = fields.begin();
