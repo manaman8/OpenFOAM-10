@@ -1069,21 +1069,29 @@ void Foam::GeometricField<Type, PatchField, GeoMesh>::storeOldTime() const
 {
     if (field0Ptr_)
     {
-        field0Ptr_->storeOldTime();
-
-        if (debug)
+        if (notNull(field0Ptr_))
         {
-            InfoInFunction
-                << "Storing old time field for field" << endl
-                << this->info() << endl;
+            field0Ptr_->storeOldTime();
+
+            if (debug)
+            {
+                InfoInFunction
+                    << "Storing old time field for field" << endl
+                    << this->info() << endl;
+            }
+
+            *field0Ptr_ == *this;
+            field0Ptr_->timeIndex_ = timeIndex_;
+
+            if (field0Ptr_->field0Ptr_)
+            {
+                field0Ptr_->writeOpt() = this->writeOpt();
+            }
         }
-
-        *field0Ptr_ == *this;
-        field0Ptr_->timeIndex_ = timeIndex_;
-
-        if (field0Ptr_->field0Ptr_)
+        else
         {
-            field0Ptr_->writeOpt() = this->writeOpt();
+            // Reinstate old-time field
+            oldTime();
         }
     }
 }
