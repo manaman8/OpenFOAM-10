@@ -1276,6 +1276,17 @@ void Foam::GeometricField<Type, PatchField, GeoMesh>::nullOldestTimeFound()
     }
 }
 
+
+template<class Type, template<class> class PatchField, class GeoMesh>
+void Foam::GeometricField<Type, PatchField, GeoMesh>::
+correctBoundaryConditions()
+{
+    this->setUpToDate();
+    storeOldTimes();
+    boundaryField_.evaluate();
+}
+
+
 template<class Type, template<class> class PatchField, class GeoMesh>
 void Foam::GeometricField<Type, PatchField, GeoMesh>::reset
 (
