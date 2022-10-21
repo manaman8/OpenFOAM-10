@@ -78,7 +78,7 @@ void MapGeometricFields
             lookupClass<GeometricField<Type, PatchField, GeoMesh>>()
     );
 
-        for
+    for
     (
         typename HashTable<const GeometricField<Type, PatchField, GeoMesh>*>::
             iterator fieldIter = fields.begin();
